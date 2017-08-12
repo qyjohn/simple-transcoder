@@ -1,4 +1,5 @@
-import java.util.UUID;
+import java.util.*;
+import java.io.*;
 
 public class App 
 {
@@ -11,17 +12,18 @@ public class App
 			prop.load(input);
 			String workDir = prop.getProperty("workDir");
 
-			PreProcessor pre = new AwsPreProcessor(workDir);
 			Transcoder transcoder = new Transcoder(workDir);
-			PostProcessor post = new AwsPostProcessor(workDir);
+			AwsStorageHandler storage = new AwsStorageHandler(workDir);
 			
 			while (true)
 			{
 				String taskId = UUID.randomUUID().toString();
-				String filename = pre.fetchJob();
-				transcoder.transcode(taskId, filename);
-				post.uploadOutput();
+//				transcoder.transcode(taskId, filename);
 			}
+		} catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		
 	}
